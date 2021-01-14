@@ -28,14 +28,15 @@ var (
 // Connect ...
 func Connect() {
 
-	fmt.Println("Test", os.Getenv("DEV_ENVIRONMENT"))
-
 	if devEnvironment == "dev" {
+		fmt.Println("Test", os.Getenv("DEV_ENVIRONMENT"))
 		connection = fmt.Sprintf("mongodb://localhost:27017")
 	} else {
+		fmt.Println("Test", os.Getenv("DEV_ENVIRONMENT"))
 		connection = fmt.Sprintf("mongodb://%s:%s@%s/%s", dbUsername, dbPassword, dbPort, dbName)
+		fmt.Println(os.Getenv("DEV_ENVIRONMENT"), connection)
 	}
-
+	
 	client, err := mongo.NewClient(options.Client().ApplyURI(connection))
 	if err != nil {
 		log.Fatal(err)
