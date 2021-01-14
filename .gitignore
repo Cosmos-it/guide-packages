@@ -1,0 +1,25 @@
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.buildlog/
+.history
+.svn/
+.env
+*.env
+main*
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+.idea/
+# Visual Studio Code related
+.vscode/
+resources/secrets-config/config-env.yaml
+# Guide generated file
+LoggerFile
+sendgrid.env
+sendgrid.env
