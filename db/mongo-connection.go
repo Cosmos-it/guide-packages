@@ -12,7 +12,7 @@ import (
 )
 
 // Conn ...
-var Conn *mongo.Database
+var Conn *mongo.Database // Global variable
 
 // connection ...
 var connection string
@@ -27,16 +27,12 @@ var (
 
 // Connect ...
 func Connect() {
-
 	if devEnvironment == "dev" {
-		fmt.Println("Test", os.Getenv("DEV_ENVIRONMENT"))
 		connection = fmt.Sprintf("mongodb://localhost:27017")
 	} else {
-		fmt.Println("Test", os.Getenv("DEV_ENVIRONMENT"))
 		connection = fmt.Sprintf("mongodb://%s:%s@%s/%s", dbUsername, dbPassword, dbPort, dbName)
-		fmt.Println(os.Getenv("DEV_ENVIRONMENT"), connection)
 	}
-	
+
 	client, err := mongo.NewClient(options.Client().ApplyURI(connection))
 	if err != nil {
 		log.Fatal(err)
@@ -45,10 +41,15 @@ func Connect() {
 
 	ctx, cancel := context.WithTimeout(context.TODO(), 20*time.Second)
 	defer cancel()
+
 	err = client.Connect(ctx)
 	if err != nil {
 		log.Fatal(err)
 	}
-	print("\nConnected to MongoDB\n")
+
+	success := fmt.Sprintf("\nConnected to MongoDB in %s", devEnvironment)
+	fmt.Println(success)
+
+	// Assign to global variable
 	Conn = client.Database(dbName)
 }
