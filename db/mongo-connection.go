@@ -11,7 +11,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-// Conn ...
+// Conn Global access to the database instance ...
 var Conn *mongo.Database // Global variable
 
 // connection ...
@@ -27,12 +27,22 @@ var (
 
 // Connect ...
 func Connect() {
+
 	if devEnvironment == "dev" {
 		connection = fmt.Sprintf("mongodb://localhost:27017")
-	} else {
+		clientConnect()
+	} else if devEnvironment == "prod" {
 		connection = fmt.Sprintf("mongodb://%s:%s@%s/%s", dbUsername, dbPassword, dbPort, dbName)
+		clientConnect()
+	} else {
+		fmt.Println("No environment have been initialized")
 	}
 
+}
+
+// Connect to the database when environment variable is provided
+// clienConnect ....
+func clientConnect() {
 	client, err := mongo.NewClient(options.Client().ApplyURI(connection))
 	if err != nil {
 		log.Fatal(err)
@@ -47,9 +57,8 @@ func Connect() {
 		log.Fatal(err)
 	}
 
-	success := fmt.Sprintf("\nConnected to MongoDB in %s", devEnvironment)
-	fmt.Println(success)
+	environment := fmt.Sprintf("\nConnected to Database in %s environment", devEnvironment)
+	fmt.Println(environment)
 
-	// Assign to global variable
 	Conn = client.Database(dbName)
 }
