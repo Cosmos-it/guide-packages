@@ -31,17 +31,18 @@ func Connect() {
 	if devEnvironment == "dev" {
 		connection = fmt.Sprintf("mongodb://localhost:27017")
 		clientConnect()
+
 	} else if devEnvironment == "prod" {
 		connection = fmt.Sprintf("mongodb://%s:%s@%s/%s", dbUsername, dbPassword, dbPort, dbName)
 		clientConnect()
+
 	} else {
 		fmt.Println("No environment have been initialized")
 	}
 
 }
 
-// Connect to the database when environment variable is provided
-// clienConnect ....
+// [clientConnect] Connect to the database when environment variable is providedclienConnect ....
 func clientConnect() {
 	client, err := mongo.NewClient(options.Client().ApplyURI(connection))
 	if err != nil {
