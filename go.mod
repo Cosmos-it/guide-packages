@@ -1,4 +1,4 @@
-module github.com/Cosmos-it/guide-packages
+module github.com/cosmosinnovate/guide-packages
 
 go 1.15
 
